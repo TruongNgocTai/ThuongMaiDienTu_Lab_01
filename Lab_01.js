@@ -1,16 +1,43 @@
-var http = require('http');
+var express = require('express')
+var app = express()
+var url = require('url')
 
-var message = "Here's locking at you, babe';
+var me = {"MSSV": 1512473, "HoTen": "Trương Ngọc Tài", "Email": "truongngoctai.it.hcmus@gmail.com"}
 
-var options = {
-	host: 'localhost', port: 8080, path: '/', method: 'POST'
-}
-
-var request = http.request(options, function(response){
-	response.on('data', function(data){
-		console.log(data);
-	})
+app.get('/getThongTin', function(req, res){
+	res.send(me)
 })
 
-request.write(message);
-request.end();
+app.get('/GetValue', function(req, res){
+	res.send("Hello World!!! - {" + Date() + "}")
+})
+
+app.post('/Cong/a/:val_a/b/:val_b', function(req, res){
+	var result = parseInt(req.params.val_a) + parseInt(req.params.val_b)
+	res.send(result.toString())
+})
+
+app.put('/Tru/a/:val_a/b/:val_b', function(req, res){
+	var result = parseInt(req.params.val_a) - parseInt(req.params.val_b)
+	res.send(result.toString())
+})
+
+app.delete('/Nhan/a/:val_a/b/:val_b', function(req, res){
+	var result = parseInt(req.params.val_a) * parseInt(req.params.val_b)
+	res.send(result.toString())
+})
+
+app.delete('/Chia/a/:val_a/b/:val_b', function(req, res){
+	var numer = parseInt(req.params.val_a)
+	var deno = parseInt(req.params.val_b)
+
+	if(deno == 0){
+		res.send('Không được thưc hiện phép chia 0')
+	}else{
+		var result = numer/deno
+		res.send(result.toString())
+	}
+})
+
+var server = app.listen(3000, function(){
+})
